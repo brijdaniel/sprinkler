@@ -50,19 +50,19 @@ client = mqtt.Client(client_id=config.read('MQTTConfig', 'client_id'), clean_ses
 client.on_message = on_message
 client.on_connect = on_connect
 client.connect(config.read('MQTTConfig', 'server'), 1883, 60)
-#client.loop_start()
+client.loop_start()
 
 # Flag for managing sp_status publishes
 flag = False
 
 # Main loop
 while True:
-	client.loop(0.01)
+	#client.loop(0.01)
 	if os.environ.get('sp_status') == "True" and not flag:
 		client.publish('pihouse/sprinkler/status', "True")
 		flag = True
 	if os.environ.get('sp_status') == "False" and  flag:
 		client.publish('pihouse/sprinkler/status', "False")
 		flag = False
-	#sleep(0.01)
+	sleep(0.01)
 
