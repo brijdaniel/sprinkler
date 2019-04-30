@@ -35,15 +35,15 @@ def on_message(client, userdata, msg):
 	else:
 		if payload_decode == "request":
 			client.publish(topic, config.read('SPConfig', topic))
+			if topic == 'pihouse/sprinkler/schedule/next':
+				client.publish(topic, str(cron.next()))
 		else:
 			config.set('SPConfig', topic, str(payload_decode))
 			if topic == 'pihouse/sprinkler/schedule':
-				sleep(0.2)
-				#config = Configure()
+				sleep(0.1)
 				job_string = config.read('SPConfig', topic)
 				checkbox = config.read('SPConfig', 'pihouse/sprinkler/schedule/set')
 				cron.set(job_string, checkbox)
-				config.set('SPConfig', 'pihouse/sprinkler/schedule/next', str(cron.next()))
 							
 # Create and connect MQTT object
 client = mqtt.Client(client_id=config.read('MQTTConfig', 'client_id'), clean_session=False)
