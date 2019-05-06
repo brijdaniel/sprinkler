@@ -2,7 +2,7 @@ from crontab import CronTab
 import datetime
 
 def set(job_string, checkbox):
-	cron_tab = CronTab(user='pi') 
+	cron_tab = CronTab(user='root') 
 
 	for job in cron_tab:
 		if job.comment == 'sprinkler_cron':
@@ -19,7 +19,7 @@ def set(job_string, checkbox):
 
 def next():
 	now = datetime.datetime.now()
-	cron_tab = CronTab(user='pi') 
+	cron_tab = CronTab(user='root') 
 
 	for job in cron_tab:
 		if job.comment == 'sprinkler_cron':    

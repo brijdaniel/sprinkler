@@ -50,3 +50,4 @@ def main():
 if os.environ.get('CRONTAB') == 'true':
 	main()
 	print ('cron')
+	#something here to tell server sprinkler is on
