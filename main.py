@@ -29,14 +29,14 @@ def on_message(client, userdata, msg):
 		if payload_decode == "True":
 			os.environ["sp_ctl"] = "True"
 			sprinkler.main()
-			config.set('SPConfig', 'pihouse/sprinkler/schedule/last', str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+			config.set('SPConfig', 'pihouse/sprinkler/schedule/last', str(datetime.datetime.now().strftime('%H:%M, %a %d/%m/%y')))
 		elif payload_decode == "False":
 			os.environ["sp_ctl"] = "False"
 	else:
 		if payload_decode == "request":
 			client.publish(topic, config.read('SPConfig', topic))
 			if topic == 'pihouse/sprinkler/schedule/next':
-				client.publish(topic, str(cron.next()))
+				client.publish(topic, str(cron.next().strftime('%H:%M, %a %d/%m/%y')))
 		else:
 			config.set('SPConfig', topic, str(payload_decode))
 			if topic == 'pihouse/sprinkler/schedule':
@@ -57,7 +57,6 @@ flag = False
 
 # Main loop
 while True:
-	#client.loop(0.01)
 	if os.environ.get('sp_status') == "True" and not flag:
 		client.publish('pihouse/sprinkler/status', "True")
 		flag = True

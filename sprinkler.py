@@ -32,17 +32,14 @@ def run_sprinkler(flag):
 			os.environ["sp_status"] = "False"
 			break
 		else:
-			# check environment variable sp_ctl, set by mqtt on_message 
 			sleep(0.1)
 			flag = os.environ.get('sp_ctl')   
 	else:
 		print ('Stopping sprinkler (timer)')
 		GPIO.output(pin, GPIO.LOW)
 		os.environ["sp_status"] = "False"
-  # want to be able to return i value to server to show countdown
 
-def main(): 
-	# Start new thread, execute run_sprinkler
+def main():
 	thread = Thread(target=run_sprinkler, args=[os.environ.get('sp_ctl')])
 	thread.start()
   
