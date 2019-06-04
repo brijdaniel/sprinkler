@@ -29,7 +29,6 @@ def on_message(client, userdata, msg):
 		if payload_decode == "True":
 			os.environ["sp_ctl"] = "True"
 			sprinkler.main()
-			config.set('SPConfig', 'pihouse/sprinkler/schedule/last', str(datetime.datetime.now().strftime('%H:%M, %a %d/%m/%y')))
 		elif payload_decode == "False":
 			os.environ["sp_ctl"] = "False"
 	else:

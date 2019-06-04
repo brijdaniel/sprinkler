@@ -5,6 +5,7 @@ from time import sleep, time
 from threading import Thread
 import RPi.GPIO as GPIO
 from configure import Configure
+import datetime
 
 # initialise GPIO
 GPIO.setwarnings(False)
@@ -22,6 +23,7 @@ def run_sprinkler(flag):
 	print ('Starting sprinkler')
 	GPIO.output(pin, GPIO.HIGH)
 	os.environ["sp_status"] = "True"
+	config.set('SPConfig', 'pihouse/sprinkler/schedule/last', str(datetime.datetime.now().strftime('%H:%M, %a %d/%m/%y')))
 
   # If flag changes then turn off, otherwise run for config time  
 	timer = time() + sp_timer * 60
@@ -47,4 +49,3 @@ def main():
 if os.environ.get('CRONTAB') == 'true':
 	main()
 	print ('cron')
-	#something here to tell server sprinkler is on
